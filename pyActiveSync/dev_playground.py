@@ -58,18 +58,18 @@ if policykey:
     as_conn.set_policykey(policykey)
 
 def as_request(cmd, wapxml_req):
-    print "\r\n%s Request:" % cmd
-    print wapxml_req
+    print("\r\n%s Request:" % cmd)
+    print(wapxml_req)
     res = as_conn.post(cmd, parser.encode(wapxml_req))
     wapxml_res = parser.decode(res)
-    print "\r\n%s Response:" % cmd
-    print wapxml_res
+    print("\r\n%s Response:" % cmd)
+    print(wapxml_res)
     return wapxml_res
 
 #Provision functions
 def do_apply_eas_policies(policies):
     for policy in policies.keys():
-        print "Virtually applying %s = %s" % (policy, policies[policy])
+        print("Virtually applying %s = %s" % (policy, policies[policy]))
     return True
 
 def do_provision():
@@ -93,12 +93,12 @@ foldersync_xmldoc_req = FolderSync.build(storage.get_synckey("0"))
 foldersync_xmldoc_res = as_request("FolderSync", foldersync_xmldoc_req)
 changes, synckey, status = FolderSync.parse(foldersync_xmldoc_res)
 if int(status) > 138 and int(status) < 145:
-    print as_status("FolderSync", status)
+    print(as_status("FolderSync", status))
     do_provision()
     foldersync_xmldoc_res = as_request("FolderSync", foldersync_xmldoc_req)
     changes, synckey, status = FolderSync.parse(foldersync_xmldoc_res)
     if int(status) > 138 and int(status) < 145:
-        print as_status("FolderSync", status)
+        print(as_status("FolderSync", status))
         raise Exception("Unresolvable provisoning error: %s. Cannot continue..." % status)
 if len(changes) > 0:
     storage.update_folderhierarchy(changes)
@@ -111,7 +111,7 @@ INBOX = collection_id_of["Inbox"]
 SENT_ITEMS = collection_id_of["Sent Items"]
 CALENDAR = collection_id_of["Calendar"]
 CONTACTS = collection_id_of["Contacts"]
-SUGGESTED_CONTACTS = collection_id_of["Suggested Contacts"]
+# SUGGESTED_CONTACTS = collection_id_of["Suggested Contacts"]
 NOTES = collection_id_of["Notes"]
 TASKS = collection_id_of["Tasks"]
 
@@ -224,29 +224,29 @@ collection_sync_params = {
                                                             ],
                                          },
                             },
-                          SUGGESTED_CONTACTS:
-                          {
-                             "WindowSize":"512",
-                             "Options": {
-                                         #"FilterType": airsync_FilterType.OneWeek,
-                                         "Conflict": airsync_Conflict.ServerReplacesClient,
-                                         "MIMETruncation":airsync_MIMETruncation.TruncateNone,
-                                         "MIMESupport":airsync_MIMESupport.SMIMEOnly,
-                                         "Class":airsync_Class.Contacts,
-                                         "airsyncbase_BodyPreference": [{
-                                                            "Type": airsyncbase_Type.HTML,
-                                                            "TruncationSize": "1000000000", # Max 4,294,967,295
-                                                            "AllOrNone": "1", # I.e. Do not return any body, if body size > tuncation size
-                                                            #"Preview": "255", # Size of message preview to return 0-255
-                                                            },
-                                                            {
-                                                            "Type": airsyncbase_Type.MIME,
-                                                            "TruncationSize": "3000000000", # Max 4,294,967,295
-                                                            "AllOrNone": "1", # I.e. Do not return any body, if body size > tuncation size
-                                                            }
-                                                            ],
-                                         },
-                            },
+                        #   SUGGESTED_CONTACTS:
+                        #   {
+                        #      "WindowSize":"512",
+                        #      "Options": {
+                        #                  #"FilterType": airsync_FilterType.OneWeek,
+                        #                  "Conflict": airsync_Conflict.ServerReplacesClient,
+                        #                  "MIMETruncation":airsync_MIMETruncation.TruncateNone,
+                        #                  "MIMESupport":airsync_MIMESupport.SMIMEOnly,
+                        #                  "Class":airsync_Class.Contacts,
+                        #                  "airsyncbase_BodyPreference": [{
+                        #                                     "Type": airsyncbase_Type.HTML,
+                        #                                     "TruncationSize": "1000000000", # Max 4,294,967,295
+                        #                                     "AllOrNone": "1", # I.e. Do not return any body, if body size > tuncation size
+                        #                                     #"Preview": "255", # Size of message preview to return 0-255
+                        #                                     },
+                        #                                     {
+                        #                                     "Type": airsyncbase_Type.MIME,
+                        #                                     "TruncationSize": "3000000000", # Max 4,294,967,295
+                        #                                     "AllOrNone": "1", # I.e. Do not return any body, if body size > tuncation size
+                        #                                     }
+                        #                                     ],
+                        #                  },
+                        #     },
                           NOTES:
                             {
                              "WindowSize":"512",
@@ -314,10 +314,10 @@ gie_options = {
                    { 
                     "Class": airsync_Class.Contacts,
                      },
-               SUGGESTED_CONTACTS:
-                    {
-                     "Class": airsync_Class.Contacts,
-                     },
+            #    SUGGESTED_CONTACTS:
+            #         {
+            #          "Class": airsync_Class.Contacts,
+            #          },
                NOTES:
                    { 
                     "Class": airsync_Class.Notes,
@@ -331,16 +331,16 @@ gie_options = {
 #Sync function
 def do_sync(collections):
     as_sync_xmldoc_req = Sync.build(storage.get_synckeys_dict(curs), collections)
-    print "\r\nRequest:"
-    print as_sync_xmldoc_req
+    print("\r\nRequest:")
+    print(as_sync_xmldoc_req)
     res = as_conn.post("Sync", parser.encode(as_sync_xmldoc_req))
-    print "\r\nResponse:"
+    print("\r\nResponse:")
     if res == '':
-        print "Nothing to Sync!"
+        print("Nothing to Sync!")
     else:
         collectionid_to_type_dict = storage.get_serverid_to_type_dict()
         as_sync_xmldoc_res = parser.decode(res)
-        print as_sync_xmldoc_res
+        print(as_sync_xmldoc_res)
         sync_res = Sync.parse(as_sync_xmldoc_res, collectionid_to_type_dict)
         storage.update_items(sync_res)
         return sync_res
@@ -360,13 +360,13 @@ def getitemestimate_check_prime_collections(getitemestimate_responses):
         if response.Status == "1":
             has_synckey.append(response.CollectionId)
         elif response.Status == "2":
-            print "GetItemEstimate Status: Unknown CollectionId (%s) specified. Removing." % response.CollectionId
+            print("GetItemEstimate Status: Unknown CollectionId (%s) specified. Removing." % response.CollectionId)
         elif response.Status == "3":
-            print "GetItemEstimate Status: Sync needs to be primed."
+            print("GetItemEstimate Status: Sync needs to be primed.")
             needs_synckey.update({response.CollectionId:{}})
             has_synckey.append(response.CollectionId) #technically *will* have synckey after do_sync() need end of function
         else:
-            print as_status("GetItemEstimate", response.Status)
+            print(as_status("GetItemEstimate", response.Status))
     if len(needs_synckey) > 0:
         do_sync(needs_synckey)
     return has_synckey, needs_synckey
@@ -376,7 +376,7 @@ def sync(collections):
 
     has_synckey, just_got_synckey = getitemestimate_check_prime_collections(getitemestimate_responses)
 
-    if (len(has_synckey) < collections) or (len(just_got_synckey) > 0): #grab new estimates, since they changed
+    if (len(has_synckey) < len(collections)) or (len(just_got_synckey) > 0): #grab new estimates, since they changed
         getitemestimate_responses = do_getitemestimates(has_synckey)
 
     collections_to_sync = {}
@@ -386,7 +386,7 @@ def sync(collections):
             if int(response.Estimate) > 0:
                 collections_to_sync.update({response.CollectionId:collection_sync_params[response.CollectionId]})
         else:
-            print "GetItemEstimate Status (error): %s, CollectionId: %s." % (response.Status, response.CollectionId)
+            print("GetItemEstimate Status (error): %s, CollectionId: %s." % (response.Status, response.CollectionId))
 
     if len(collections_to_sync) > 0:
         sync_res = do_sync(collections_to_sync)
@@ -396,17 +396,17 @@ def sync(collections):
                     if coll_res.MoreAvailable == None:
                         del collections_to_sync[coll_res.CollectionId]
                 if len(collections_to_sync.keys()) > 0:
-                    print collections_to_sync
+                    print(collections_to_sync)
                     sync_res = do_sync(collections_to_sync)
                 else:
                     break
 
-collections = [ INBOX, SENT_ITEMS, CALENDAR, CONTACTS, SUGGESTED_CONTACTS, NOTES, TASKS ]
+collections = [ INBOX, SENT_ITEMS, CALENDAR, CONTACTS, NOTES, TASKS ]
 sync(collections)
 
 #Ping (push), GetItemsEstimate and Sync process test
 #Ping
-ping_xmldoc_req = Ping.build("120", [(INBOX, "Email"),(SENT_ITEMS, "Email"),(CALENDAR,"Calendar"),(CONTACTS,"Contacts"),(SUGGESTED_CONTACTS, "Contacts"),(NOTES, "Notes"),(TASKS, "Tasks")])
+ping_xmldoc_req = Ping.build("120", [(INBOX, "Email"),(SENT_ITEMS, "Email"),(CALENDAR,"Calendar"),(CONTACTS,"Contacts"),(NOTES, "Notes"),(TASKS, "Tasks")])
 ping_xmldoc_res = as_request("Ping", ping_xmldoc_req)
 ping_res = Ping.parse(ping_xmldoc_res)
 if ping_res[0] == "2": #2=New changes available

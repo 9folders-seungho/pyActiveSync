@@ -371,7 +371,7 @@ class storage:
                     storage.item_operation(storage.ItemOps.Update, command[1][1], command[1][0], curs)
                 elif command[0] == "SoftDelete":
                     storage.item_operation(storage.ItemOps.SoftDelete, command[1][1], command[1][0], curs)
-            if collection.SyncKey > 1:
+            if int(collection.SyncKey) > 1:
                 storage.update_synckey(collection.SyncKey, collection.CollectionId, curs)
                 conn.commit()
             else:

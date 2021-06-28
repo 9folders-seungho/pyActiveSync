@@ -19,7 +19,7 @@
 
 """[MS-ASCAL] Calendar objects"""
 
-from MSASEMAIL import airsyncbase_Body
+from .MSASEMAIL import airsyncbase_Body
 
 def parse_calendar(data):
     calendar_dict = {}

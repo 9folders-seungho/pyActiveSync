@@ -18,7 +18,7 @@
 ########################################################################
 
 
-from wapxml import wapxmltree, wapxmlnode
+from .wapxml import wapxmltree, wapxmlnode
 
 class wbxml_parser(object):
     """WBXML Parser"""
@@ -223,7 +223,7 @@ class wbxml_parser(object):
     def encode_string(self, string):
         string = str(string)
         retarray = bytearray(string, "utf-8")
-        retarray.append("\x00")
+        retarray.append(0x00)
         return retarray
 
     def encode_string_as_opaquedata(self, string):
@@ -267,14 +267,14 @@ class wbxml_parser(object):
             retarray = self.wbxml[self.pointer:self.pointer + length]
             self.pointer += length
         # the return value is immutable, therefore it is fine to not copy the retarray
-        return str(retarray)
+        return retarray.decode()
 
     def decode_byte(self):
         self.pointer+=1
         return self.wbxml[self.pointer-1]
 
     def decode_multibyte_integer(self):
-        #print "indices: ", self.pointer, "of",  len(self.wbxml)
+        #print("indices: ", self.pointer, "of",  len(self.wbxml))
         if self.pointer >= len(self.wbxml):
             raise IndexError("wbxml is truncated. nothing left to decode") 
         integer = 0

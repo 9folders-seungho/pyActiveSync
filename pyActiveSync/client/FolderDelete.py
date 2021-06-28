@@ -53,7 +53,7 @@ class FolderDelete:
             if element.tag is "Status":
                 folderhierarchy_folderdelete_status = element.text
                 if folderhierarchy_folderdelete_status != "1":
-                     print "FolderDelete Exception: %s" % folderhierarchy_folderdelete_status
+                     print("FolderDelete Exception: %s" % folderhierarchy_folderdelete_status)
             elif element.tag == "SyncKey":
                 folderhierarchy_folderdelete_synckey = element.text
         return (folderhierarchy_folderdelete_status, folderhierarchy_folderdelete_synckey)

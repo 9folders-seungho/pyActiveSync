@@ -18,7 +18,7 @@
 ########################################################################
 
 
-from code_page import code_page
+from .code_page import code_page
 
 class as_code_pages:
     """MS-ASWBXML code pages builder"""

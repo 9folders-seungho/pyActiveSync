@@ -61,7 +61,7 @@ class MoveItems(object):
                 if element.tag is "Status":
                     status = element.text
                     if status != "3":
-                         print "MoveItems Exception: %s" % status
+                         print("MoveItems Exception: %s" % status)
                 elif element.tag == "SrcMsgId":
                     src_id = element.text
                 elif element.tag == "DstMsgId":

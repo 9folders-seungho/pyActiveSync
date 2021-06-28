@@ -60,7 +60,7 @@ class Ping(object):
             if element.tag is "Status":
                 status = element.text
                 if (status != "1") and (status != "2"):
-                     print "Ping Exception: %s" % status
+                     print("Ping Exception: %s" % status)
             elif element.tag == "HeartbeatInterval":
                 heartbeat_interval = element.text
             elif element.tag == "MaxFolders":

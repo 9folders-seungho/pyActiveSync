@@ -55,7 +55,7 @@ class FolderCreate:
             if element.tag is "Status":
                 folderhierarchy_foldercreate_status = element.text
                 if folderhierarchy_foldercreate_status != "1":
-                     print "FolderCreate Exception: %s" % folderhierarchy_foldercreate_status
+                     print("FolderCreate Exception: %s" % folderhierarchy_foldercreate_status)
             elif element.tag == "SyncKey":
                 folderhierarchy_foldercreate_synckey = element.text
             elif element.tag == "ServerId":

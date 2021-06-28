@@ -112,7 +112,7 @@ class ItemOperations:
             if element.tag is "Status":
                 itemoperations_itemoperations_status = element.text
                 if itemoperations_itemoperations_status != "1":
-                    print "FolderSync Exception: %s" % itemoperations_itemoperations_status
+                    print("FolderSync Exception: %s" % itemoperations_itemoperations_status)
             elif element.tag == "Response":
                 response_elements = element.get_children()
                 for response_element in response_elements:

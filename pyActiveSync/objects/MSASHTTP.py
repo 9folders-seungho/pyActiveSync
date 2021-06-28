@@ -17,7 +17,8 @@
 #  MA  02110-1301, USA.
 ########################################################################
 
-import httplib, urllib
+import http.client as httplib
+import urllib
 
 class ASHTTPConnector(object):
     """ActiveSync HTTP object"""
@@ -42,8 +43,8 @@ class ASHTTPConnector(object):
     def set_credential(self, username, password):
         import base64
         self.username = username
-        self.credential = base64.b64encode(username+":"+password)
-        self.headers.update({"Authorization" : "Basic " + self.credential})
+        self.credential = base64.b64encode((username+":"+password).encode())
+        self.headers.update({"Authorization" : "Basic " + self.credential.decode()})
 
     def do_post(self, url, body, headers, redirected=False):
         if self.ssl:
@@ -66,7 +67,7 @@ class ASHTTPConnector(object):
     def post(self, cmd, body):
         url = self.POST_URL_TEMPLATE % (cmd, self.username)
         res = self.do_post(url, body, self.headers)
-        #print res.status, res.reason, res.getheaders()
+        #print(res.status, res.reason, res.getheaders())
         return res.read()
 
     def fetch_multipart(self, body, filename="fetched_file.tmp"):
@@ -109,10 +110,10 @@ class ASHTTPConnector(object):
             self._server_version = res.getheader("ms-server-activesync")
             return True
         else:
-            print "Connection Error!:"
-            print res.status, res.reason
+            print("Connection Error!:")
+            print(res.status, res.reason)
             for header in res.getheaders():
-                print header[0]+":",header[1]
+                print(header[0]+":",header[1])
             return False
 
     def get_policykey(self):

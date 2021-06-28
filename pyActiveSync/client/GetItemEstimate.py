@@ -41,13 +41,13 @@ class GetItemEstimate:
             except KeyError:
                 xml_gie_airsyncSyncKey_node = wapxmlnode("airsync:SyncKey", xml_Collection_node, "0") 
             xml_gie_CollectionId_node = wapxmlnode("CollectionId", xml_Collection_node, collection_id)#?
-            if options[collection_id].has_key("ConversationMode"):
+            if "ConversationMode" in options[collection_id]:
                 xml_gie_ConverationMode_node = wapxmlnode("airsync:ConversationMode", xml_Collection_node, options[collection_id]["ConversationMode"])#?
             xml_gie_airsyncOptions_node = wapxmlnode("airsync:Options", xml_Collection_node)
             xml_gie_airsyncClass_node = wapxmlnode("airsync:Class", xml_gie_airsyncOptions_node, options[collection_id]["Class"]) #STR #http://msdn.microsoft.com/en-us/library/gg675489(v=exchg.80).aspx
-            if options[collection_id].has_key("FilterType"):
+            if "FilterType" in options[collection_id]:
                 xml_gie_airsyncFilterType_node = wapxmlnode("airsync:FilterType", xml_gie_airsyncOptions_node, options[collection_id]["FilterType"])   #INT #http://msdn.microsoft.com/en-us/library/gg663562(v=exchg.80).aspx
-            if options[collection_id].has_key("MaxItems"):
+            if "MaxItems" in options[collection_id]:
                 xml_gie_airsyncMaxItems_node = wapxmlnode("airsync:MaxItems", xml_gie_airsyncMaxItems_node, options[collection_id]["MaxItems"]) #OPTIONAL  #INT   #http://msdn.microsoft.com/en-us/library/gg675531(v=exchg.80).aspx
         return getitemestimate_xmldoc_req
         

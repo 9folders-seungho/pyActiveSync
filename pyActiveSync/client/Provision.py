@@ -77,7 +77,7 @@ class Provision:
             if element.tag is "Status":
                 status = element.text
                 if (status != "1") and (status != "2"):
-                     print "Provision Exception: %s" % status
+                     print("Provision Exception: %s" % status)
             elif element.tag == "Policies":
                 policy_elements = element.get_children()[0].get_children()
                 for policy_element in policy_elements:
