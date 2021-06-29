@@ -106,12 +106,19 @@ if len(changes) > 0:
     conn.commit()
 
 collection_id_of = storage.get_folder_name_to_id_dict()
+print("collection_id_of : ", collection_id_of)
+
+# INBOX = collection_id_of["받은 편지함"]
+# SENT_ITEMS = collection_id_of["보낸 편지함"]
+# CALENDAR = collection_id_of["일정"]
+# CONTACTS = collection_id_of["연락처"]
+# NOTES = collection_id_of["메모"]
+# TASKS = collection_id_of["작업"]
 
 INBOX = collection_id_of["Inbox"]
 SENT_ITEMS = collection_id_of["Sent Items"]
 CALENDAR = collection_id_of["Calendar"]
 CONTACTS = collection_id_of["Contacts"]
-# SUGGESTED_CONTACTS = collection_id_of["Suggested Contacts"]
 NOTES = collection_id_of["Notes"]
 TASKS = collection_id_of["Tasks"]
 

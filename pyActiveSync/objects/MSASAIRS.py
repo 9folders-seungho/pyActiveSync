@@ -171,7 +171,7 @@ class airsyncbase_Attachment(object): #Repsonse-only object.
                 self.email2_UmAttOrder = element.text
     def marshal(self):
         import base64
-        return base64.b64encode("%s//%s//%s//%s//%s//%s//%s//%s//%s" % (repr(self.airsyncbase_DisplayName), repr(self.airsyncbase_FileReference), repr(self.airsyncbase_Method), repr(self.airsyncbase_EstimatedDataSize), repr(self.airsyncbase_ContentId),repr(self.airsyncbase_ContentLocation), repr(self.airsyncbase_IsInline), repr(self.email2_UmAttDuration),repr(self.email2_UmAttOrder)))
+        return "%s//%s//%s//%s//%s//%s//%s//%s//%s" % (repr(self.airsyncbase_DisplayName), repr(self.airsyncbase_FileReference), repr(self.airsyncbase_Method), repr(self.airsyncbase_EstimatedDataSize), repr(self.airsyncbase_ContentId),repr(self.airsyncbase_ContentLocation), repr(self.airsyncbase_IsInline), repr(self.email2_UmAttDuration),repr(self.email2_UmAttOrder))
     def __repr__(self):
         return self.marshal()
 

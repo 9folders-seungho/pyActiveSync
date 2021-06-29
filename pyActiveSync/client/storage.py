@@ -192,7 +192,8 @@ class storage:
                                                 notes_Subject text,
                                                 airsyncbase_Body text,
                                                 notes_MessageClass text,
-                                                notes_LastModifiedDate text)""")
+                                                notes_LastModifiedDate text,
+                                                notes_Categories text)""")
 
         curs.execute("""CREATE TABLE MSASTASK (ServerId text,
                                                 airsyncbase_Body text,
