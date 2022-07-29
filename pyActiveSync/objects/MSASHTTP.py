@@ -18,7 +18,9 @@
 ########################################################################
 
 import http.client as httplib
+import ssl
 import urllib
+
 
 class ASHTTPConnector(object):
     """ActiveSync HTTP object"""
@@ -45,6 +47,10 @@ class ASHTTPConnector(object):
         self.username = username
         self.credential = base64.b64encode((username+":"+password).encode())
         self.headers.update({"Authorization" : "Basic " + self.credential.decode()})
+        
+    def set_jwt_credential(self, username, jwt):
+        self.username = username
+        self.headers.update({"Authorization": "Bearer " + jwt})
 
     def do_post(self, url, body, headers, redirected=False):
         if self.ssl:
